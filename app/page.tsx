@@ -1,4 +1,27 @@
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+
+interface ImageData {
+  id: string;
+  height: number;
+  width: number;
+  prompt: string;
+  negativePrompt: string;
+  promptStrength: number;
+  modelId: string;
+  numberOfImages: number;
+  seed: number;
+  steps: number;
+  upscalingOption: string;
+  createdAt: string;
+  state: string;
+  status: string;
+  images: Array<{
+    id: string;
+    uri: string;
+    createdAt: string;
+  }>;
+}
 
 export default async function Home() {
   const allImages = await fetch(
@@ -12,26 +35,32 @@ export default async function Home() {
     }
   );
   const data = await allImages.json();
-  const finishedImages = data.filter((image) => image.state === "finished");
+  const finishedImages = data.filter(
+    (image: ImageData) => image.state === "finished"
+  );
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-10 md:p-24">
-      <div className="space-y-4 grid grid-cols-1 2xl:grid-cols-2">
+      <div className="grid grid-cols-1 2xl:grid-cols-2">
         {finishedImages
           .slice()
           .reverse()
-          .map((image: any, index: any) => (
-            <div key={index} className="flex flex-col md:flex-row">
-              <Image
-                src={image.images[0].uri}
-                alt={image.prompt}
-                width={500}
-                height={500}
-                className="rounded-lg"
-              />
-
-              <p className="md:ml-5">{image.prompt}</p>
-            </div>
+          .map((image: ImageData, index: number) => (
+            <Card
+              key={index}
+              className="p-5 w-[500px] h-[380px] overflow-hidden border-hidden"
+            >
+              <CardTitle className=" line-clamp-2">{image.prompt}</CardTitle>
+              <CardContent className="mt-3 relative max-w-xl h-full">
+                <Image
+                  src={image.images[0].uri}
+                  alt={image.prompt}
+                  fill
+                  className="rounded-lg"
+                  loading="lazy"
+                />
+              </CardContent>
+            </Card>
           ))}
       </div>
     </main>
