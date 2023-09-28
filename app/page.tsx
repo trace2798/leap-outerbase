@@ -34,9 +34,9 @@ export default async function Home() {
       cache: "no-cache",
     }
   );
-  console.log(allImages);
+  // console.log(allImages);
   const data = await allImages.json();
-  console.log(data);
+  // console.log(data);
 
   const prompts = new Set();
   const uniquePromptImages = data.filter((image: ImageData) => {
