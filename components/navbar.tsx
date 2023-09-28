@@ -1,12 +1,8 @@
 import { cn } from "@/lib/utils";
-// import { UserButton, auth } from "@clerk/nextjs";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { FC } from "react";
-// import LoginButton from "./login-button";
-// import { MobileSidebar } from "./mobile-sidebar";
-// import { ModeToggle } from "./mode-toggle";
-// import { SearchSheet } from "./search-sheet";
+import { Button } from "./ui/button";
 
 const font = Poppins({ weight: "600", subsets: ["latin"] });
 interface navbarProps {}
@@ -28,9 +24,9 @@ export const Navbar: FC<navbarProps> = ({}) => {
           </Link>
         </div>
         <div className="flex items-center gap-x-3">
-          {/* {userId && <SearchSheet />}
-          <ModeToggle />
-          {userId ? <UserButton afterSignOutUrl="/" /> : <LoginButton />} */}
+          <Link href="/image-request">
+            <Button variant="ghost">Generate Image</Button>
+          </Link>
         </div>
       </div>
     </>
