@@ -19,46 +19,21 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-// import { useUser } from "@clerk/nextjs";
-
-// import { ImageUpload } from "@/components/image-upload";
 
 const formSchema = z.object({
   prompt: z.string().min(1, {
     message: "Prompt.",
   }),
-  //   author: z.string().min(1, {
-  //     message: "Name is required.",
-  //   }),
-  //   description: z.string().min(1, {
-  //     message: "Description is required.",
-  //   }),
-  //   src: z.string().min(1, {
-  //     message: "Image is required.",
-  //   }),
-  //   user_id: z.string().min(1, {
-  //     message: "User id is required.",
-  //   }),
-  //   user_name: z.string().min(1, {
-  //     message: "User name is required.",
-  //   }),
 });
 
-export const NewBookForm = ({}) => {
+export const NewImageForm = ({}) => {
   const { toast } = useToast();
   const router = useRouter();
-  //   const { user } = useUser();
-  //   console.log(user);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: "",
-      //   name: "",
-      //   description: "",
-      //   src: "",
-      //   author: "",
-      //   user_id: user?.id ?? "Anomynous",
-      //   user_name: user?.firstName ?? "Anomynous",
     },
   });
 
@@ -66,9 +41,7 @@ export const NewBookForm = ({}) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log(values);
-
-      await fetch(`https://spiritual-aqua.cmd.outerbase.io/addImagetoQueue`, {
+      await fetch(`YOUR_COMMAND_LINK`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -77,7 +50,6 @@ export const NewBookForm = ({}) => {
           prompt: values.prompt,
         }),
       });
-      console.log("Request through Outerbase Sent");
       toast({
         description: "Success. Request Sent",
         duration: 3000,
@@ -122,7 +94,7 @@ export const NewBookForm = ({}) => {
                   <FormControl>
                     <Textarea
                       disabled={isLoading}
-                      placeholder="The Wonderful Wizard of Oz"
+                      placeholder="We held on to hope of better days coming, and when we did we were right. In psychedelic style with cosmic background. The image should have a sky with star"
                       {...field}
                     />
                   </FormControl>
@@ -131,51 +103,13 @@ export const NewBookForm = ({}) => {
                 </FormItem>
               )}
             />
-            {/* <FormField
-              name="author"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel>Author&apos;s name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isLoading}
-                      placeholder="L. Frank Baum"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Author of the book.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="description"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      disabled={isLoading}
-                      placeholder="Brief description about the book"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Short description for the Book
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
           </div>
           <div className="space-y-2 w-full">
             <Separator className="bg-primary/10" />
           </div>
 
           <div className="w-full flex justify-center">
-            <Button size="lg" disabled={isLoading}>
+            <Button size="lg" disabled>
               Send Request
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>
